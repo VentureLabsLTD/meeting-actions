@@ -1,13 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 
 class Button extends React.Component {
   style() {
     return {
       padding: 10,
+      width: "18%",
       backgroundColor: this.props.color,
-      color: 'white'
+      color: '#00AB91'
     };
   }
 
@@ -22,6 +23,7 @@ class TaskInput extends React.Component {
   style() {
     return {
       padding: 10,
+      width: "75%"
     }
   }
 
@@ -38,6 +40,7 @@ class TaskInput extends React.Component {
 class NewTask extends React.Component {
   constructor() {
     super();
+
     this.state = {
       newTitle: '',
     }
@@ -57,7 +60,7 @@ class NewTask extends React.Component {
   render() {
     return <div>
       <TaskInput value={this.state.newTitle} onTitleChange={this.onTitleChange} />
-      <Button onClick={this.addTask} color="green">Create New</Button>
+      <Button onClick={this.addTask}>Create New</Button>
     </div>
   }
 }
@@ -78,7 +81,7 @@ class Task extends React.Component {
   textStyle() {
     return {
       display: 'inline-block',
-      width: 150,
+      width: '75%'
     }
   }
 
@@ -88,8 +91,8 @@ class Task extends React.Component {
 
   render() {
     return <div style={this.containerStyle()}>
-      <span style={this.textStyle()}> - {this.props.children} </span>
-      <Button onClick={this.removeItem} color="red">Remove</Button>
+      <span style={this.textStyle()}>{this.props.children}</span>
+      <Button onClick={this.removeItem}>x</Button>
     </div>
   }
 }
@@ -106,6 +109,57 @@ class TasksList extends React.Component {
     }
     return <div>{todoList}</div>
   }
+}
+
+const CustomEditor = ({ onNewTask }) => {
+  const initialValue = "sdfsdff"
+  const [value, setValue] = useState(initialValue ?? '');
+  useEffect(() => setValue(initialValue ?? ''), [initialValue]);
+  const myOnchange = (thing) => {
+      // console.log('loggg', thing)
+      return (event, editor) => { 
+        // console.log('editor all content', editor.getContent()) 
+        const value = editor.getDoc().getSelection().focusNode;
+        console.log('selection content', editor.getDoc().getSelection().focusNode) 
+        // debugger
+        // onNewTask(value.data)
+      }
+  }
+  return (
+    <Editor
+      onMouseUp={myOnchange("heyy")}
+      initialValue="my tasks \r sdfsdfsdf \n sdfsdf"
+      // onSelectionChange={(stuff) => { console.log('selected', stuff)} }
+      init={{
+        height: "100vh",
+        menubar: false,
+        plugins: [
+          'advlist autolink lists link image charmap print preview anchor',
+          'searchreplace visualblocks code fullscreen',
+          'insertdatetime media textpattern table paste code help wordcount'
+        ],
+        textpattern_patterns: [
+          {start: '*', end: '*', format: 'italic'},
+          {start: '**', end: '**', format: 'bold'},
+          {start: '#', format: 'h1'},
+          {start: '##', format: 'h2'},
+          {start: '###', format: 'h3'},
+          {start: '####', format: 'h4'},
+          {start: '#####', format: 'h5'},
+          {start: '######', format: 'h6'},
+          {start: '1. ', cmd: 'InsertOrderedList'},
+          {start: '\/task ', cmd: 'InsertUnorderedList'},
+          {start: '- ', cmd: 'InsertUnorderedList'}
+       ],
+        toolbar: '',
+        // toolbar: 'undo redo | formatselect | ' +
+        // 'bold italic backcolor | alignleft aligncenter ' +
+        // 'alignright alignjustify | bullist numlist outdent indent | ' +
+        // 'removeformat | help',
+        content_style:'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+      }}
+    />
+  );
 }
 
 class App extends React.Component {
@@ -131,12 +185,8 @@ class App extends React.Component {
 
   render() {
     return <div>
-      <div style={{ width: "50%", float: "left" }}>
-        <div className="App">
-          <form method="post">
-            <textarea id="mytextarea">Hello, World!</textarea>
-          </form>
-        </div>
+      <div style={{ height: "calc(100vh)", width: "50%", float: "left" }}>
+        <CustomEditor onNewTask={this.addTask} />
       </div>
       <div style={{ width: "50%", float: "right" }}>
         <NewTask onNewTask={this.addTask} />
