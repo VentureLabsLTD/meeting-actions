@@ -1,38 +1,74 @@
-.App {
+input {
+  font-size: 1.1em;
+  padding: 10px 20px;
+  border: none;
+  display: inline-block;
+  width: 80%;
+  height: 30px;
+  border-bottom: 1px solid grey;
+}
+
+.header {
+  color: grey;
+  background: lightgrey;
+  font-size: 1.5em;
   text-align: center;
+  border-bottom: 2px solid grey;
+  padding: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.taskHeader{
+  color: grey;
+  font-size: 1.2em;
+  background: lightgrey;
+  text-align: center;
+  padding: 14px;
+  border-bottom: 1px solid grey;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+.taskName {
+  width: 90%;
+  height: 30px;
+  font-size: 1em;
+  padding: 10px 18px;
+  display: inline-block;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.taskWrapper{
+  border-bottom: 1px solid grey;
 }
 
-.App-link {
-  color: #61dafb;
+button.createNew {
+  width: 15%;
+  height: 43px;
+  padding: 0px;
+  margin: 0px;
+  display: inline-block;
+  /* background-color: green; */
+  /* border-bottom: 3px solid darkgreen; */
+  border: 0px;
+  background: white;
+  border-left: 1px solid grey;
+  border-bottom: 1px solid grey;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+button.createNew:hover {
+  cursor: pointer;
+  background: lightgrey;
+}
+
+button.removeTask {
+  margin: 10px;
+  display: inline-block;
+  background: lightgray;
+  border: none;
+  height: 35px;
+  width: 35px;
+}
+
+button.removeTask:hover {
+  cursor: pointer;
+  background: darkgrey;
 }
