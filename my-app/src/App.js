@@ -22,10 +22,11 @@ const App = () => {
     updateTaskState(tasksCopy);
   }
 
-  const removeTask = (taskTitle) => {
+  const removeTask = (index) => {
+
     const tasksCopy = [...tasks];
-    const index = tasksCopy.indexOf(taskTitle);
     tasksCopy.splice(index, 1);
+    console.log(index, tasks, tasksCopy)
     updateTaskState(tasksCopy);
   }
 
