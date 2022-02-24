@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 
-const Task = ({ index, updateTask, removeTask, children }) => {
+const Task = ({ index, updateTask, removeTask, children, people }) => {
     return <div class="taskWrapper">
         <div class="grid grid-cols-12 grid-flow-col gap-0 bg-white mt-1 p-1">
             <div class="col-span-9">
@@ -8,9 +8,7 @@ const Task = ({ index, updateTask, removeTask, children }) => {
             </div>
             <div class="col-span-2 p-2">
                 <select class="pr-2 text-center text-gray-700 w-full h-full grid place-content-center rounded-full bg-gray-300 hover:bg-gray-400">
-                    <option>RB</option>
-                    <option>JR</option>
-                    <option>LB</option>
+                    {people.map((person) => <option>{person}</option>)}
                 </select>
             </div>
             <div class="col-span-1 p-2">
@@ -20,9 +18,9 @@ const Task = ({ index, updateTask, removeTask, children }) => {
     </div>
 }
 
-const TasksList = ({ tasks, onRemovetask, updateTask }) => {
-    const todoList = tasks.map((task, idx) => <Task index={idx} key={idx} updateTask={updateTask} removeTask={onRemovetask}>{task}</Task>)
-    return <Fragment>{todoList}</Fragment>
+const TasksList = ({ people, tasks, onRemovetask, updateTask }) => {
+    const PersonList = tasks.map((task, idx) => <Task people={people} index={idx} key={idx} updateTask={updateTask} removeTask={onRemovetask}>{task}</Task>)
+    return <Fragment>{PersonList}</Fragment>
 }
 
 export { TasksList }

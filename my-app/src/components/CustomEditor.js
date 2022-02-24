@@ -1,7 +1,7 @@
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-const CustomEditor = ({ onNewTask }) => {
+const CustomEditor = ({ onNewTask, onChange }) => {
     const myOnchange = (_, editor) => {
         const { data } = editor.getDoc().getSelection().focusNode;
         console.log('selection content', editor.getDoc().getSelection().focusNode)
@@ -10,7 +10,9 @@ const CustomEditor = ({ onNewTask }) => {
     return (
         <Editor
             onMouseUp={myOnchange}
-            initialValue="What do you need to discuss?"
+            onKeyUp={onChange}
+            // initialValue="What do you need to discuss?"
+            initialValue="Meeting notes: @james, @lou, @rory, @bob"
             init={{
                 height: "100vh",
                 menubar: false,
