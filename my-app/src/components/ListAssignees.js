@@ -4,7 +4,7 @@ const Person = ({ index, updatePerson, removePerson, children }) => {
     return <div class="taskWrapper">
         <div class="grid grid-cols-12 grid-flow-col gap-0 bg-white mt-1 p-1">
             <div class="col-span-11">
-                <input class="text-gray-600	w-full h-full p-4" defaultValue={children} onBlur={(e) => updatePerson(e.target.value)} />
+                <input class="text-gray-600	w-full h-full p-4" value={children} onChange={(e) => updatePerson(e.target.value)} />
             </div>
             <div class="col-span-1 p-2">
                 <button class="w-full hover:bg-gray-300 text-gray-700 h-full" onClick={() => removePerson(index)}>✖</button>

@@ -32,7 +32,6 @@ const App = () => {
   const removeTask = (index) => {
     const tasksCopy = [...tasks];
     tasksCopy.splice(index, 1);
-    console.log(index, tasks, tasksCopy)
     updateTaskState(tasksCopy);
   }
 
@@ -55,7 +54,6 @@ const App = () => {
   const removePerson = (index) => {
     const peopleCopy = [...people];
     peopleCopy.splice(index, 1);
-    console.log(index, tasks, peopleCopy)
     updatePersonState(peopleCopy);
   }
 

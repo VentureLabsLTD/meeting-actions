@@ -5,12 +5,43 @@ const CustomEditor = ({ onNewTask, onChange }) => {
     const myOnchange = (_, editor) => {
         const { data } = editor.getDoc().getSelection().focusNode;
         console.log('selection content', editor.getDoc().getSelection().focusNode)
-        onNewTask(data)
+        debugger
+        // onNewTask(data)
     }
+
+    const wrapAssignee = (_, editor) => {
+        const content = editor.getContent()
+        const contentWithoutPeople = content.split(/@[a-z]+|<span class="customThing">@[a-z]+<\/span>/g);
+        const people = content.match(/@[a-z]+|<span class="customThing">@[a-z]+<\/span>/g);
+        console.log('content', content)
+        console.log('contentWithoutPeople', contentWithoutPeople);
+        console.log('people', people);
+        // debugger
+        const result = contentWithoutPeople.reduce((agg, content, index) => {
+            const result = [...agg, content]
+            const wrappedPerson = `<span class="customThing">${people[index]}</span>`;
+            const currentPerson = people[index];
+            console.log('current person', currentPerson)
+            if (currentPerson && currentPerson.includes('<span class="customThing">')) {
+                console.log('found wrapped person, push')
+                result.push(currentPerson);
+            } else if (currentPerson) {
+                console.log('found not wrapped person, push', wrappedPerson)
+                result.push(wrappedPerson);
+            }
+            return result
+        }, []).join('');
+        console.log('content', content);
+        if (content !== result) {
+            console.log('render!!!')
+            editor.setContent(result);
+        }
+    }
+
     return (
         <Editor
             onMouseUp={myOnchange}
-            onKeyUp={onChange}
+            onKeyUp={wrapAssignee}
             // initialValue="What do you need to discuss?"
             initialValue="Meeting notes: @james, @lou, @rory, @bob"
             init={{
@@ -39,7 +70,7 @@ const CustomEditor = ({ onNewTask, onChange }) => {
                 // 'bold italic backcolor | alignleft aligncenter ' +
                 // 'alignright alignjustify | bullist numlist outdent indent | ' +
                 // 'removeformat | help',
-                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:25px }'
+                content_style: '.customThing {background-color: grey} body { font-family:Helvetica,Arial,sans-serif; font-size:25px; }'
             }
             }
         />
